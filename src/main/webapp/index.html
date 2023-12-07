@@ -7,12 +7,16 @@
     <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Bash Command Executor</h1>
-        <label for="commandInput">Enter Bash Command:</label>
-        <input type="text" id="commandInput" placeholder="e.g., ls -l">
-        <button onclick="executeCommand()">Execute Command</button>
-        <div id="result"></div>
+    <div class="terminal">
+        <div class="header">
+            <span class="button close"></span>
+            <span class="button minimize"></span>
+            <span class="button maximize"></span>
+        </div>
+        <div class="body">
+            <pre id="output"></pre>
+            <input type="text" id="commandInput" placeholder="Enter Bash Command">
+        </div>
     </div>
     <script src="./js/home.js"></script>
 </body>
