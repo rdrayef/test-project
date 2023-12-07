@@ -7,30 +7,22 @@ import java.io.InputStreamReader;
 public class ServiceDefault implements Service {
 
 	public String executeCommand(String command) {
-		StringBuilder output = new StringBuilder();
-
 		try {
-			String gitBashPath = "bash.exe"; // Change this to your Git Bash path
+			Process process = Runtime.getRuntime().exec(command);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
-			ProcessBuilder processBuilder = new ProcessBuilder(gitBashPath, "-c", command);
-			Process process = processBuilder.start();
+            StringBuilder output = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                output.append(line).append("\n");
+            }
 
-			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            int exitCode = process.waitFor();
 
-			String line;
-			while ((line = reader.readLine()) != null) {
-				output.append(line).append("\n");
-			}
-
-			int exitCode = process.waitFor();
-			if (exitCode != 0) {
-				System.err.println("Command exited with error code: " + exitCode);
-			}
-
+            return "Command executed with exit code " + exitCode + "\nOutput:\n" + output.toString();
 		} catch (IOException | InterruptedException e) {
-			e.printStackTrace();
+			return "Erreur : " + e.getMessage();
 		}
-		return output.toString();
 	}
 
 }
